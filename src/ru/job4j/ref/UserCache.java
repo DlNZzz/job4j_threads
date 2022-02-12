@@ -21,6 +21,11 @@ public class UserCache {
     }
 
     public List<User> findAll() {
-        return (List<User>) new ArrayList<>(users.values()).clone();
+        List<User> list = new ArrayList<>(users.values());
+        List<User> users = new ArrayList<>(list.size());
+        for (User user : list) {
+            users.add(User.of(user.getName()));
+        }
+        return users;
     }
 }
