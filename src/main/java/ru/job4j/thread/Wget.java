@@ -8,9 +8,9 @@ import java.util.Date;
 
 public class Wget implements Runnable {
 
+    private static String file;
     private final String url;
     private final int speed;
-    private static String file;
 
     public Wget(String url, int speed) {
         this.url = url;
