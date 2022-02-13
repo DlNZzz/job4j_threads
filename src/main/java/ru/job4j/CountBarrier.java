@@ -19,13 +19,12 @@ public class CountBarrier {
 
     public void await() {
         synchronized (this) {
-            while (count >= total) {
-
-            }
-            try {
-                monitor.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            while (count < total) {
+                try {
+                    monitor.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
