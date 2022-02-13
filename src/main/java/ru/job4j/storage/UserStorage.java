@@ -9,35 +9,24 @@ import java.util.Map;
 public class UserStorage {
     private final Map<Integer, User> userMap = new HashMap<>();
 
-    public boolean add(User user) {
-        synchronized (new UserStore()) {
-            return null == userMap.putIfAbsent(user.getId(), User.of(user));
-        }
+    public synchronized boolean add(User user) {
+        return null == userMap.putIfAbsent(user.getId(), User.of(user));
     }
 
-    public boolean update(User user) {
-        synchronized (new UserStore()) {
-            return null != userMap.replace(user.getId(), User.of(user));
-        }
+    public synchronized boolean update(User user) {
+        return null != userMap.replace(user.getId(), User.of(user));
     }
 
-    public boolean delete(User user) {
-        synchronized (new UserStore()) {
-            return null != userMap.remove(user.getId());
-        }
+    public synchronized boolean delete(User user) {
+        return userMap.remove(user.getId(), user);
     }
 
-    public void transfer(int fromId, int toId, int amount) {
-        synchronized (new UserStore()) {
-            User userFromId = userMap.get(fromId);
-            User userToId = userMap.get(toId);
-            if (userFromId != null && userToId != null) {
-                int amountFrom = userFromId.getAmount();
-                if (amountFrom >= amount) {
-                    userFromId.setAmount(amountFrom - amount);
-                    userToId.setAmount(userToId.getAmount() + amount);
-                }
-            }
+    public synchronized void transfer(int fromId, int toId, int amount) {
+        User userFromId = userMap.get(fromId);
+        User userToId = userMap.get(toId);
+        if (userFromId != null && userToId != null && userFromId.getAmount() >= amount) {
+            userFromId.setAmount(userFromId.getAmount() - amount);
+            userToId.setAmount(userToId.getAmount() + amount);
         }
     }
 }
