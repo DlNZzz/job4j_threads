@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 
 public class Wget implements Runnable {
 
@@ -22,12 +23,23 @@ public class Wget implements Runnable {
              FileOutputStream fileOutputStream = new FileOutputStream(file)) {
             byte[] dataBuffer = new byte[1024];
             int bytesRead;
+            int fileSize = 0;
+            Date oldDate = new Date();
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+                fileSize += bytesRead;
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
+            }
+            Date newDate = new Date();
+            if ((newDate.getTime() - oldDate.getTime()) / 1000 > fileSize / speed) {
+                Thread.sleep((newDate.getTime() - oldDate.getTime()));
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
+
     }
 
     public static void main(String[] args) throws InterruptedException {
