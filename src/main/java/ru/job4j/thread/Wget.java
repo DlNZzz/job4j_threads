@@ -9,6 +9,7 @@ public class Wget implements Runnable {
 
     private final String url;
     private final int speed;
+    private static String file;
 
     public Wget(String url, int speed) {
         this.url = url;
@@ -18,25 +19,32 @@ public class Wget implements Runnable {
     @Override
     public void run() {
         try (BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
-             FileOutputStream fileOutputStream = new FileOutputStream("pom_tmp.xml")) {
+             FileOutputStream fileOutputStream = new FileOutputStream(file)) {
             byte[] dataBuffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
-                Thread.sleep(100L * speed);
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     public static void main(String[] args) throws InterruptedException {
-        String url = args[0];
-        int speed = Integer.parseInt(args[1]);
-        Thread wget = new Thread(new Wget(url, speed));
-        wget.start();
-        wget.join();
+        if (valid(args)) {
+            String url = args[0];
+            int speed = Integer.parseInt(args[1]);
+            file = args[2];
+            Thread wget = new Thread(new Wget(url, speed));
+            wget.start();
+            wget.join();
+        }
+    }
+
+    private static boolean valid(String[] args) {
+        if (args.length != 3) {
+            throw new IllegalArgumentException("необходимо 3 параметра");
+        }
+        return true;
     }
 }
