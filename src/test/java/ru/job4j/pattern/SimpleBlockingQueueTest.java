@@ -12,23 +12,31 @@ public class SimpleBlockingQueueTest {
 
     @Test
     public void test() throws InterruptedException {
-        SimpleBlockingQueue<Integer> simpleBlockingQueue = new SimpleBlockingQueue<>();
+        SimpleBlockingQueue<Integer> simpleBlockingQueue = new SimpleBlockingQueue<>(3);
         List<Integer> list = new ArrayList<>();
         Thread producer = new Thread(
                 () -> {
-                    simpleBlockingQueue.offer(2);
-                    simpleBlockingQueue.offer(3);
-                    simpleBlockingQueue.offer(4);
-                    simpleBlockingQueue.offer(5);
+                    try {
+                        simpleBlockingQueue.offer(2);
+                        simpleBlockingQueue.offer(3);
+                        simpleBlockingQueue.offer(4);
+                        simpleBlockingQueue.offer(5);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 },
                 "Producer"
         );
         Thread consumer = new Thread(
                 () -> {
-                    list.add(simpleBlockingQueue.poll());
-                    list.add(simpleBlockingQueue.poll());
-                    list.add(simpleBlockingQueue.poll());
-                    list.add(simpleBlockingQueue.poll());
+                    try {
+                        list.add(simpleBlockingQueue.poll());
+                        list.add(simpleBlockingQueue.poll());
+                        list.add(simpleBlockingQueue.poll());
+                        list.add(simpleBlockingQueue.poll());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 },
                 "Consumer"
         );
