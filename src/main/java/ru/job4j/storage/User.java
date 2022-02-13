@@ -2,7 +2,7 @@ package ru.job4j.storage;
 
 import java.util.Objects;
 
-public class User {
+public class User implements Cloneable {
     private int id;
     private int amount;
 
@@ -11,20 +11,20 @@ public class User {
         this.amount = amount;
     }
 
-    public static User of(User user) {
-        return new User(user.id, user.amount);
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public int getId() {
         return id;
     }
 
-    public void addAmount(int amount) {
-        this.amount += amount;
-    }
-
-    public void reduceAmount(int amount) {
-        this.amount -= amount;
+    public static User of(User user) {
+        return new User(user.id, user.amount);
     }
 
     @Override

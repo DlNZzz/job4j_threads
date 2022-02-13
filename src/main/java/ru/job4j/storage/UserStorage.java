@@ -7,46 +7,37 @@ import java.util.Map;
 
 @ThreadSafe
 public class UserStorage {
-
-    private final UserStore userStore = new UserStore();
     private final Map<Integer, User> userMap = new HashMap<>();
 
     public boolean add(User user) {
-        synchronized (userStore) {
-            if (!userMap.containsKey(user.getId())) {
-                userMap.put(user.getId(), User.of(user));
-                return true;
-            }
-            return false;
+        synchronized (new UserStore()) {
+            return null == userMap.putIfAbsent(user.getId(), User.of(user));
         }
     }
 
     public boolean update(User user) {
-        synchronized (userStore) {
-            if (userMap.containsKey(user.getId())) {
-                userMap.put(user.getId(), User.of(user));
-                return true;
-            }
-            return false;
+        synchronized (new UserStore()) {
+            return null != userMap.replace(user.getId(), User.of(user));
         }
     }
 
     public boolean delete(User user) {
-        synchronized (userStore) {
-            if (userMap.containsKey(user.getId())) {
-                userMap.remove(user.getId());
-                return true;
-            }
-            return false;
+        synchronized (new UserStore()) {
+            return null != userMap.remove(user.getId());
         }
     }
 
     public void transfer(int fromId, int toId, int amount) {
-        synchronized (userStore) {
+        synchronized (new UserStore()) {
             User userFromId = userMap.get(fromId);
             User userToId = userMap.get(toId);
-            userFromId.reduceAmount(amount);
-            userToId.addAmount(amount);
+            if (userFromId != null && userToId != null) {
+                int amountFrom = userFromId.getAmount();
+                if (amountFrom >= amount) {
+                    userFromId.setAmount(amountFrom - amount);
+                    userToId.setAmount(userToId.getAmount() + amount);
+                }
+            }
         }
     }
 }
