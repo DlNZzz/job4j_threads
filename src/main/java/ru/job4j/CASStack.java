@@ -33,9 +33,9 @@ public class CASStack<T> {
     }
 
     private static final class Node<T> {
-        final T value;
+        private final T value;
 
-        Node<T> next;
+        private Node<T> next;
 
         public Node(final T value) {
             this.value = value;
