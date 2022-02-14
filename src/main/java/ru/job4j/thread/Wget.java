@@ -23,15 +23,21 @@ public class Wget implements Runnable {
              FileOutputStream fileOutputStream = new FileOutputStream(file)) {
             byte[] dataBuffer = new byte[1024];
             int bytesRead;
-            int fileSize = 0;
-            Date oldDate = new Date();
+            Date timeStart = new Date();
+            long bytesWrited = 0;
+            long deltaTime = 1000;
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
-                fileSize += bytesRead;
+                bytesWrited += bytesRead;
+                if (bytesWrited >= speed) {
+                    bytesWrited -= speed;
+                    Date newDate = new Date();
+                    long currentTime = newDate.getTime() - timeStart.getTime();
+                    if (currentTime < deltaTime) {
+                        Thread.sleep(deltaTime - currentTime);
+                    }
+                    timeStart = new Date();
+                }
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
-            }
-            Date newDate = new Date();
-            if ((newDate.getTime() - oldDate.getTime()) / 1000 > fileSize / speed) {
-                Thread.sleep((newDate.getTime() - oldDate.getTime()));
             }
         } catch (IOException e) {
             e.printStackTrace();
