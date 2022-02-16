@@ -13,16 +13,16 @@ public class EmailNotification {
         String email = user.getEmail();
         String subject = String.format("Notification %s to email %s.", username, email);
         String body = String.format("Add a new event to %s", username);
-        pool.submit(new Runnable() {
-            @Override
-            public void run() {
-                send(subject, body, email);
-            }
-        });
+        send(subject, body, email);
     }
 
     public void send(String subject, String body, String email) {
+        pool.submit(new Runnable() {
+            @Override
+            public void run() {
 
+            }
+        });
     }
 
     public void close() {
