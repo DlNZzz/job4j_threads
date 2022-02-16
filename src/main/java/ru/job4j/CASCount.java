@@ -8,10 +8,11 @@ import java.util.concurrent.atomic.AtomicReference;
 public class CASCount {
     private final AtomicReference<Integer> count = new AtomicReference<>();
 
+    public CASCount() {
+        count.set(0);
+    }
+
     public void increment() {
-        if (count.get() == null) {
-            count.set(0);
-        }
         int i;
         do {
             i = count.get();
