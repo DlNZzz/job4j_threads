@@ -4,7 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Date;
 
 public class Wget implements Runnable {
 
@@ -23,19 +22,19 @@ public class Wget implements Runnable {
              FileOutputStream fileOutputStream = new FileOutputStream(file)) {
             byte[] dataBuffer = new byte[1024];
             int bytesRead;
-            Date timeStart = new Date();
+            long timeStart = System.currentTimeMillis();
             long bytesWrited = 0;
             long deltaTime = 1000;
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
                 bytesWrited += bytesRead;
                 if (bytesWrited >= speed) {
                     bytesWrited -= speed;
-                    Date newDate = new Date();
-                    long currentTime = newDate.getTime() - timeStart.getTime();
+                    long newDate = System.currentTimeMillis();
+                    long currentTime = newDate - timeStart;
                     if (currentTime < deltaTime) {
                         Thread.sleep(deltaTime - currentTime);
                     }
-                    timeStart = new Date();
+                    timeStart = System.currentTimeMillis();
                 }
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
             }
