@@ -20,11 +20,7 @@ public class ParallelSearch<T> extends RecursiveTask<Integer> {
     @Override
     protected Integer compute() {
         if ((to - from) <= 10) {
-            for (int i = 0; i < array.length; i++) {
-                if (objectSearch.equals(array[i])) {
-                    return i;
-                }
-            }
+            return searchPos();
         }
         int mid = (from + to) / 2;
         ParallelSearch<T> leftSort = new ParallelSearch<>(array, from, mid, objectSearch);
@@ -37,5 +33,15 @@ public class ParallelSearch<T> extends RecursiveTask<Integer> {
     public int search(T[] array, T objectSearch) {
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         return forkJoinPool.invoke(new ParallelSearch<>(array, 0, array.length - 1, objectSearch));
+    }
+
+    private int searchPos() {
+        System.out.println("se");
+        for (int i = from; i <= to; i++) {
+            if (objectSearch.equals(array[i])) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

@@ -9,8 +9,8 @@ public class ParallelSearchTest<T> {
     @Test
     public void test() {
         int objectSearch = 34;
-        Integer[] array = new Integer[] {123, 312, 54, 34, 8, 32, 4, 8, 3, 56, 324, 435};
-        ParallelSearch parallelSearch = new ParallelSearch(array, 0, 11, objectSearch);
+        Integer[] array = new Integer[] {123, 312, 54, 34, 8, 32, 4, 8, 3, 56, 324, 435, 54, 6, 8, 9, 6};
+        ParallelSearch parallelSearch = new ParallelSearch(array, 0, 0, objectSearch);
         int received = parallelSearch.search(array, objectSearch);
         assertThat(received, is(3));
     }
@@ -19,8 +19,17 @@ public class ParallelSearchTest<T> {
     public void testTwo() {
         int objectSearch = 56;
         Integer[] array = new Integer[] {123, 312, 54, 34, 8, 32, 4, 8, 3, 56};
-        ParallelSearch parallelSearch = new ParallelSearch(array, 0, 9, objectSearch);
+        ParallelSearch parallelSearch = new ParallelSearch(array, 0, 0, objectSearch);
         int received = parallelSearch.search(array, objectSearch);
         assertThat(received, is(9));
+    }
+
+    @Test
+    public void testThree() {
+        int objectSearch = 5555555;
+        Integer[] array = new Integer[] {123, 312, 54, 34, 8, 32, 4, 8, 3, 56};
+        ParallelSearch parallelSearch = new ParallelSearch(array, 0, 0, objectSearch);
+        int received = parallelSearch.search(array, objectSearch);
+        assertThat(received, is(-1));
     }
 }

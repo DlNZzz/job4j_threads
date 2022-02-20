@@ -6,7 +6,7 @@ public class RolColSum {
         private int colSum;
         /* Getter and Setter */
     }
-
+/*
     public static Sums[] sum(int[][] matrix) {
 
     }
@@ -14,5 +14,5 @@ public class RolColSum {
     public static Sums[] asyncSum(int[][] matrix) {
 
     }
-
+    */
 }
