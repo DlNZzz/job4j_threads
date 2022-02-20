@@ -9,7 +9,7 @@ public class ParallelSearchTest<T> {
     @Test
     public void test() {
         int objectSearch = 34;
-        Integer[] array = new Integer[] {123, 312, 54, 34, 8, 32, 4, 8, 3, 56, 324, 435, 54, 6, 8, 9, 6};
+        Integer[] array = new Integer[] {123, 312, 54, 34, 8, 32, 4, 8, 3, 56, 324, 435, 54, 6};
         ParallelSearch parallelSearch = new ParallelSearch(array, 0, 0, objectSearch);
         int received = parallelSearch.search(array, objectSearch);
         assertThat(received, is(3));

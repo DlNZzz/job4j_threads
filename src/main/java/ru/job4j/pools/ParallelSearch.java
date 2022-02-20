@@ -36,7 +36,6 @@ public class ParallelSearch<T> extends RecursiveTask<Integer> {
     }
 
     private int searchPos() {
-        System.out.println("se");
         for (int i = from; i <= to; i++) {
             if (objectSearch.equals(array[i])) {
                 return i;
