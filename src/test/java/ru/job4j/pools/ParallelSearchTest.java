@@ -22,6 +22,7 @@ public class ParallelSearchTest<T> {
         ParallelSearch parallelSearch = new ParallelSearch(array, 0, 0, objectSearch);
         int received = parallelSearch.search(array, objectSearch);
         assertThat(received, is(9));
+        //232
     }
 
     @Test
