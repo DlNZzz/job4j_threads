@@ -44,10 +44,10 @@ public class RolColSum {
 
         @Override
         public String toString() {
-            return "Sums{" +
-                    "rowSum=" + rowSum +
-                    ", colSum=" + colSum +
-                    '}';
+            return "Sums{"
+                    + "rowSum=" + rowSum
+                    + ", colSum=" + colSum
+                    + '}';
         }
     }
 
