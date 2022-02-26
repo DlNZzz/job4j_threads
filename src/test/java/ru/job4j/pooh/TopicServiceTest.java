@@ -21,11 +21,13 @@ public class TopicServiceTest {
         topicService.process(
                 new Req("POST", "topic", "weather", paramForPublisher)
         );
-        /* Режим topic. Забираем данные из индивидуальной очереди в топике weather. Очередь client407. */
+        /* Режим topic. Забираем данные из индивидуальной очереди
+        в топике weather. Очередь client407. */
         Resp result1 = topicService.process(
                 new Req("GET", "topic", "weather", paramForSubscriber1)
         );
-        /* Режим topic. Забираем данные из индивидуальной очереди в топике weather. Очередь client6565.
+        /* Режим topic. Забираем данные из индивидуальной очереди в топике weather.
+        Очередь client6565.
         Очередь отсутствует, т.к. еще не был подписан - получит пустую строку */
         Resp result2 = topicService.process(
                 new Req("GET", "topic", "weather", paramForSubscriber2)
